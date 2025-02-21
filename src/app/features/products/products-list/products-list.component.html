@@ -1,0 +1,59 @@
+<div id="products-container">
+  <h2> Lista de Produtos</h2>
+  <div id="new">
+    <button class="new-product" (click)="openCreateModal()">+ Novo Produto</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th hidden>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Quantidade</th>
+        <th>Data de cadastro</th>
+        <th class="option">📝</th>
+        <th class="option">🗑️</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td hidden>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td class="option">
+          <button id="edit" (click)="openEditModal(product)">📝</button>
+        </td>
+        <td class="option">
+          <button id="delete" (click)="deleteProduct(product.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page <= 1">Anterior</button>
+    <span>Página {{ page }}/{{ total }}</span>
+    <button (click)="nextPage()">Próxima</button>
+  </div>
+</div>
+
+<!-- Modal de Cadastro/Atualização -->
+<div id="product-modal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ isEdit ? 'Editar Produto' : 'Novo Produto' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="name">Nome do produto</label>
+      <input type="text" id="name" [(ngModel)]="productForm.name" name="name" required />
+
+      <label for="price">Preço</label>
+      <input type="number" id="price" [(ngModel)]="productForm.price" name="price" required />
+
+      <label for="quantity">Quantidade</label>
+      <input type="number" id="quantity" [(ngModel)]="productForm.quantity" name="quantity" required />
+
+      <button type="submit">{{ isEdit ? 'Atualizar Produto' : 'Cadastrar Produto' }}</button>
+    </form>
+  </div>
+</div>
