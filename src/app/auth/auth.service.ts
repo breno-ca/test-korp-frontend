@@ -8,6 +8,8 @@ import { SignInResponse } from './model/signin-response.model';
 
 import { environment } from 'src/environments/environment.development';
 import { tap } from 'rxjs/operators';
+import { SignUp } from './model/signup.model';
+import { SignUpResponse } from './model/signup-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,10 @@ export class AuthService {
           }
         })
       );
+  }
+
+  signUp(signUp: SignUp): Observable<SignUpResponse> {
+    return this.http.post<SignUpResponse>(`${this.url}/v1/auth/signup`, signUp);
   }
 
   getToken(): boolean {

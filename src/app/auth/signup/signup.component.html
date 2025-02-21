@@ -1,0 +1,36 @@
+<div id="container">
+  <div id="signup-container">
+    <h2>Cadastro</h2>
+    <form (ngSubmit)="submit()">
+      <div id="form-group">
+        <label for="name">Nome</label>
+        <input required type="text" [(ngModel)]="signUp.name" name="name" placeholder="Digite seu nome">
+      </div>
+      <div id="form-group">
+        <label for="email">Email</label>
+        <input required type="email" [(ngModel)]="signUp.email" name="email" placeholder="Digite seu email">
+      </div>
+      <div id="form-group">
+        <label for="password">Senha</label>
+        <input required type="password" [(ngModel)]="signUp.password" name="password" placeholder="Digite sua senha">
+      </div>
+      <div id="form-group">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input required type="password" [(ngModel)]="confirmPassword" name="confirmPassword"
+          placeholder="Confirme sua senha">
+      </div>
+
+      <!-- Mensagem de erro -->
+      <div *ngIf="showErrorMessage" class="error-message">
+        {{ showErrorMessage }}
+      </div>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <!-- Mensagem de sucesso -->
+    <div *ngIf="showSuccessMessage" class="success-message">
+      Cadastro realizado com sucesso! Redirecionando para o login...
+    </div>
+  </div>
+</div>
