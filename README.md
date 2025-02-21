@@ -51,7 +51,7 @@ Este projeto é uma das partes do teste, este projeto deve ser executado prefere
 
 2. Execute o projeto:
     ```sh
-    make compose
+    make launch
     ```
 
 ### Via local
