@@ -1,0 +1,54 @@
+<div id="suppliers-container">
+  <h2> Lista de Fornecedores</h2>
+  <div id="new">
+    <button class="new-supplier" (click)="openCreateModal()">+ Novo Fornecedor</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th hidden>ID</th>
+        <th>Fornecedor</th>
+        <th>Email</th>
+        <th>Data de cadastro</th>
+        <th class="option">📝</th>
+        <th class="option">🗑️</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let supplier of suppliers">
+        <td hidden>{{ supplier.id }}</td>
+        <td>{{ supplier.company_name }}</td>
+        <td>{{ supplier.email }}</td>
+        <td>{{ supplier.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td class="option">
+          <button id="edit" (click)="openEditModal(supplier)">📝</button>
+        </td>
+        <td class="option">
+          <button id="delete" (click)="deleteSupplier(supplier.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page <= 1">Anterior</button>
+    <span>Página {{ page }}/{{ total }}</span>
+    <button (click)="nextPage()">Próxima</button>
+  </div>
+</div>
+
+<!-- Modal de Cadastro/Atualização -->
+<div id="supplier-modal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ isEdit ? 'Editar Fornecedor' : 'Novo Fornecedor' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="company_name">Razão Social</label>
+      <input type="text" id="company_name" [(ngModel)]="supplierForm.company_name" name="company_name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" [(ngModel)]="supplierForm.email" name="email" required />
+
+      <button type="submit">{{ isEdit ? 'Atualizar Fornecedor' : 'Cadastrar Fornecedor' }}</button>
+    </form>
+  </div>
+</div>
