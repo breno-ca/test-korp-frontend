@@ -1,0 +1,80 @@
+<div id="customers-container">
+  <h2> Lista de Clientes</h2>
+  <div id="new">
+    <button class="new-customer" (click)="openCreateModal()">+ Novo Cliente</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th hidden>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>CPF/CNPJ</th>
+        <th>Status</th>
+        <th>Data de cadastro</th>
+        <th class="option">📝</th>
+        <th class="option">🗑️</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td hidden>{{ customer.id }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.phone }} </td>
+        <td>{{ customer.cpf_cnpj }} </td>
+        <td>
+          <ng-container [ngSwitch]="customer.status">
+            <span *ngSwitchCase="1">✅</span>
+            <span *ngSwitchCase="2">❌</span>
+            <span *ngSwitchDefault>⏳</span>
+          </ng-container>
+        </td>
+        <td>{{ customer.created_at | date: 'dd/MM/yyyy' }}</td>
+
+        <td class="option">
+          <button id="edit" (click)="openEditModal(customer)">📝</button>
+        </td>
+        <td class="option">
+          <button id="delete" (click)="deleteCustomer(customer.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page <= 1">Anterior</button>
+    <span>Página {{ page }}/{{ total }}</span>
+    <button (click)="nextPage()">Próxima</button>
+  </div>
+</div>
+
+<!-- Modal de Cadastro/Atualização -->
+<div id="customer-modal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ isEdit ? 'Editar Cliente' : 'Novo Cliente' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="name">Nome</label>
+      <input type="text" id="name" [(ngModel)]="customerForm.name" name="name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" [(ngModel)]="customerForm.email" name="email" required />
+
+      <label for="phone">Telefone</label>
+      <input type="text" id="phone" [(ngModel)]="customerForm.phone" name="phone" required />
+
+      <label for="cpf_cnpj">CPF/CNPJ</label>
+      <input type="text" id="cpf_cnpj" [(ngModel)]="customerForm.cpf_cnpj" name="cpf_cnpj" required />
+
+      <label for="status">Status</label>
+      <select id="status" [(ngModel)]="customerForm.status" (ngModelChange)="onStatusChange($event)" name="status"
+        required>
+        <option value="0">⏳ Em Processo</option>
+        <option value="1">✅ Ativo</option>
+        <option value="2">❌ Inativo</option>
+      </select>
+      <button type="submit">{{ isEdit ? 'Atualizar Cliente' : 'Cadastrar Cliente' }}</button>
+    </form>
+  </div>
+</div>
