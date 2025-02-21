@@ -1,27 +1,69 @@
-# TestKorpFrontend
+# Test Korp Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Este é o frontend do projeto Test Korp, desenvolvido utilizando Angular.
 
-## Development server
+## Tecnologias Utilizadas
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Angular 16**
+- **TypeScript**
+- **Node.js 23**
+- **HTML e CSS**
 
-## Code scaffolding
+## Sobre o Projeto
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Arquitetura
 
-## Build
+Este projeto utiliza o padrão de arquitetura [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application) para construção de interfaces web.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Os componentes das páginas públicas estão em app sendo elas:
+- `public/`: para landing page.
+- `auth/`: para autenticação e cadastro.
 
-## Running unit tests
+Os componentes das páginas privadas estão em:
+- `dashboard/`: contendo a navbar para acesso as páginas privadas.
+- `features/`: contendo os componentes das features
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+As features do projeto consistem em:
+- `users/`: para gerenciamento de usuários.
+- `customers/`: para gerenciamento de clientes.
+- `orders/`: para gerenciamento de pedidos.
+- `products/`: para gerenciamento de produtos.
+- `suppliers/`: para gerenciamento de fornecedores.
 
-## Running end-to-end tests
+### Configurações de Ambiente
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+O projeto consiste em um front-end para o backend do projeto [Test Korp Backend](https://github.com/breno-ca/test-korp-backend).
 
-## Further help
+As variáveis de ambiente do projeto são definidas pelo gerenciador de environments do angular
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+O arquivo `environments/environment.development.ts` define as variáveis de ambiente para o ambiente de desenvolvimento.
+
+## Como Executar
+
+Este projeto é uma das partes do teste, este projeto deve ser executado preferencialmente pelo repositório backend via docker compose. Com isso todos os ambientes serão instalados e configurados corretamente em containers.
+
+### Via docker compose
+
+1. Clone o repositório do back-end:
+    ```sh 
+    git clone https://github.com/breno-ca/test-korp-backend.git
+    ```
+
+2. Execute o projeto:
+    ```sh
+    make compose
+    ```
+
+### Via local
+
+Caso prefira rodar com as dependencias locais, execute os seguintes passos:
+
+1. Instale as dependências:
+    ```sh
+    npm install -g @angular/cli@16
+    ```
+2. Execute o projeto:
+    ```sh
+    ng serve
+    ```
+3. Acesse em seu navegador: `http://localhost:4200`
