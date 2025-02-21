@@ -1,0 +1,86 @@
+<div id="orders-container">
+  <h2>Lista de Pedidos</h2>
+  <div id="new">
+    <button class="new-order" (click)="openCreateModal()">+ Novo Pedido</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th hidden>ID</th>
+        <th hidden>Cliente ID</th>
+        <th>Cliente</th>
+        <th>Valor Total</th>
+        <th>Status</th>
+        <th>Descrição</th>
+        <th>Data do pedido</th>
+        <th class=" option">📝</th>
+        <th class="option">🗑️</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td hidden>{{ order.id }}</td>
+        <td hidden>{{ order.customer_id }}</td>
+        <td>
+          <span *ngFor="let customer of customers">
+            <ng-container *ngIf="customer.id === order.customer_id">
+              {{ customer.name }}
+            </ng-container>
+          </span>
+        </td>
+        <td>R$ {{ order.total_amount | number:'1.2-2' }}</td>
+        <td>
+          <ng-container [ngSwitch]="order.status">
+            <span *ngSwitchCase="1">✅</span>
+            <span *ngSwitchCase="2">❌</span>
+            <span *ngSwitchDefault>⏳</span>
+          </ng-container>
+        </td>
+        <td>{{ order.description }}</td>
+        <td>{{ order.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+
+        <td class="option">
+          <button id="edit" (click)="openEditModal(order)">📝</button>
+        </td>
+        <td class="option">
+          <button id="delete" (click)="deleteOrder(order.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page <= 1">Anterior</button>
+    <span>Página {{ page }}/{{ total }}</span>
+    <button (click)="nextPage()">Próxima</button>
+  </div>
+</div>
+
+<!-- Modal de Cadastro/Atualização -->
+<div id="order-modal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ isEdit ? 'Editar Pedido' : 'Novo Pedido' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="customer_id">Cliente</label>
+      <select id="customer_id" [(ngModel)]="orderForm.customer_id" name="customer_id" required>
+        <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.name }}</option>
+      </select>
+
+      <label for="description">Descrição</label>
+      <input type="text" id="description" [(ngModel)]="orderForm.description" name="description" required />
+
+      <label for="total_amount">Valor Total</label>
+      <input type="number" id="total_amount" [(ngModel)]="orderForm.total_amount" name="total_amount" required />
+
+      <label for="status">Status</label>
+      <select id="status" [(ngModel)]="orderForm.status" (ngModelChange)="onStatusChange($event)" name="status"
+        required>
+        <option value="0">⏳ Pendente</option>
+        <option value="1">✅ Confirmado</option>
+        <option value="2">❌ Cancelado</option>
+      </select>
+
+      <button type="submit">{{ isEdit ? 'Atualizar Pedido' : 'Cadastrar Pedido' }}</button>
+    </form>
+  </div>
+</div>
